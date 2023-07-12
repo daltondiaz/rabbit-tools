@@ -23,13 +23,13 @@ Rabbit Tools for now only has two functions show List of Queue or Purge Queue
 ### List
 
 ```
-rabbit list all
+./rabbit-tools list all
 ```
 
 List all Queue
 
 ```
-rabbit list something
+./rabbit-tools list something
 ```
 
 List queues with **something** in the name
@@ -37,13 +37,13 @@ List queues with **something** in the name
 ### Purge
 
 ```
-rabbit purge all
+./rabbit-tools purge all
 ```
 
 Purge content all Queue
 
 ```
-rabbit purge something
+./rabbit-tools purge something
 ```
 
 Purge content of all queues that has **something** in the name
