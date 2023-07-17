@@ -26,11 +26,39 @@ Rabbit Tools for now only has two functions show List of Queue or Purge Queue
 ./rabbit-tools list all
 ```
 
+Result:
++--------------------------------+----------+
+| QUEUE                          | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| queue_test1234                 |        5 |
+| queue_test1                    |        5 |
+| test_something                 |        3 |
+| something_queue                |        1 |
++--------------------------------+----------+
+| TOTAL QUEUES                   |        5 |
+| TOTAL MESSAGES                 |        19|
++--------------------------------+----------+
+
 List all Queue
 
 ```
 ./rabbit-tools list something
 ```
+
+Result:
+
++--------------------------------+----------+
+| QUEUE                          | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| test_something                 |        3 |
+| something_queue                |        1 |
++--------------------------------+----------+
+| TOTAL QUEUES                   |        3 |
+| TOTAL MESSAGES                 |        9 |
++--------------------------------+----------+
+
 
 List queues with **something** in the name
 
@@ -39,11 +67,35 @@ List queues with **something** in the name
 ```
 ./rabbit-tools purge all
 ```
+Result:
+
++--------------------------------+----------+
+| PURGE QUEUE                    | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| queue_test1234                 |        5 |
+| queue_test1                    |        5 |
+| test_something                 |        3 |
+| something_queue                |        1 |
++--------------------------------+----------+
+| TOTAL PURGED MESSAGES          |        19|
++--------------------------------+----------+
 
 Purge content all Queue
 
 ```
 ./rabbit-tools purge something
 ```
+Result:
+
++--------------------------------+----------+
+| PURGE QUEUE                    | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| test_something                 |        3 |
+| something_queue                |        1 |
++--------------------------------+----------+
+| TOTAL PURGED MESSAGES          |        9 |
++--------------------------------+----------+
 
 Purge content of all queues that has **something** in the name
