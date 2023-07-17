@@ -26,7 +26,7 @@ Rabbit Tools for now only has two functions show List of Queue or Purge Queue
 ./rabbit-tools list all
 ```
 
-List all Queue
+#### List *all* Queue
 
 Result:
 ```
@@ -44,11 +44,13 @@ Result:
 +--------------------------------+----------+
 ```
 
+#### List by target
+
 ```
 ./rabbit-tools list something
 ```
 
-List queues with **something** in the name
+Search and list all queues with **something** in the name
 
 Result:
 ```
@@ -65,13 +67,15 @@ Result:
 ```
 
 
-
 ### Purge
+
+#### Purge content of all Queue
+
+**all** is a reserved word
 
 ```
 ./rabbit-tools purge all
 ```
-Purge content of all Queue
 
 Result:
 ```
@@ -88,11 +92,12 @@ Result:
 +--------------------------------+----------+
 ```
 
+#### Purge by target
 ```
 ./rabbit-tools purge something
 ```
 
-Purge content of all queues that has **something** in the name
+Search and purge content of all queues that has **something** in the name
 
 Result:
 ```
