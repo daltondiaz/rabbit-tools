@@ -14,9 +14,9 @@ type ParamAccess struct {
     User string
 }
 
-func GetQueues(queue string) map[string]float64 {
+func GetQueues(queue string, env string) map[string]float64 {
 
-    params := LoadEnvVariables()
+    params := LoadEnvVariables(env)
     client := &http.Client{}
     req, err := http.NewRequest("GET", params.Url, nil)
     req.SetBasicAuth(params.User, params.Pass)

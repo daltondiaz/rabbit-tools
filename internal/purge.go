@@ -8,10 +8,10 @@ import (
 )
 
 // Do purge of the queues found from queue argument
-func PurgeQueue(queue string) {
-    params := LoadEnvVariables()
+func PurgeQueue(queue string, env string) {
+    params := LoadEnvVariables(env)
     client := &http.Client{}
-    queues := GetQueues(queue)
+    queues := GetQueues(queue, env)
     sum := 0.0
     for queueName, value := range queues {
         url := (params.Url + "/" + queueName + "/contents")

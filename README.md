@@ -20,6 +20,30 @@ Check if the plugin of rabbitmq-manager is available in your RabbitMQ
 
 Rabbit Tools for now only has two functions show List of Queue or Purge Queue
 
+### Flags
+
+
+#### Env
+
+```
+--env=Prefix
+```
+
+You pass in flag env the prefix to use more than one configuration. Example:
+
+```
+./rabbit-tools list all --env=PROD
+```
+
+The configuration look like:
+
+```
+PROD_RABBIT_URL=http://your_url/api/queues/your_virtual_host
+PROD_RABBIT_USER=your_user
+PROD_RABBIT_PASS=your_pass
+```
+
+
 ### List
 
 ```

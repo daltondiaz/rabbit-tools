@@ -1,6 +1,7 @@
 package cmd
 
 import (
+
 	"github.com/daltondiaz/rabbit-tools/internal"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
@@ -12,7 +13,8 @@ var listCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		queue := args[0]
-		result := internal.GetQueues(queue)
+        env, _ := cmd.Flags().GetString("env")
+		result := internal.GetQueues(queue, env)
         var prettyResult internal.PrettyModelResult
         prettyResult.Title = "List of Queues"
         prettyResult.Header = table.Row{"Queue", "Messages"} 
@@ -30,4 +32,5 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+    listCmd.PersistentFlags().String("env", "", "Prefix of environment in config.env")
 }

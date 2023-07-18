@@ -11,10 +11,12 @@ var purgeCmd = &cobra.Command{
     Args: cobra.ExactArgs(1),
     Run: func(cmd *cobra.Command, args []string) {
         queue := args[0]
-        internal.PurgeQueue(queue)
+        env, _ := cmd.Flags().GetString("env")
+        internal.PurgeQueue(queue, env)
     },
 }
 
 func init(){
     rootCmd.AddCommand(purgeCmd)
+    rootCmd.PersistentFlags().String("env","", "Prefix of environment in config.env")
 }
