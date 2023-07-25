@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-type ParamAccess struct {
-    Url string 
-    Pass string
-    User string
-}
 
 func GetQueues(queue string, env string) map[string]float64 {
 
@@ -23,7 +18,7 @@ func GetQueues(queue string, env string) map[string]float64 {
     resp, err := client.Do(req)
     if err != nil {
         log.Fatal(err)
-    }
+    } 
     bodyText, err := ioutil.ReadAll(resp.Body)
     var body []map[string]any
     var showQueue bool
