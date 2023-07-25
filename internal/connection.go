@@ -5,11 +5,12 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/jedib0t/go-pretty/v6/table"
 )
 
-func GetConnection(env string){
+func GetConnection(filter string, env string){
     params := LoadEnvVariables(env)
     client := &http.Client{}
     connUrl := params.Api + "/connections"
@@ -26,14 +27,29 @@ func GetConnection(env string){
     var result PrettyModelResult
     result.Title = "Connections"
     result.Header = table.Row{"Name", "Virtual Host", "User", "State" } 
+    hasFilter := false
+    if filter != "" {
+        hasFilter = true
+    }
     for _, el := range body { 
         queue := el["name"].(string)
         vhost := el["vhost"].(string)
         user := el["user"].(string)
         state := el["state"].(string)
-        row := table.Row{queue, vhost, user, state}
-        result.Contents = append(result.Contents, row)
-        count ++
+        if hasFilter {
+            if strings.Contains(queue, filter) {
+                row := table.Row{queue, vhost, user, state}
+                result.Contents = append(result.Contents, row)
+                count ++
+            }
+        } else {
+            row := table.Row{queue, vhost, user, state}
+            result.Contents = append(result.Contents, row)
+            count ++
+        }
+    }
+    if hasFilter {
+        result.Footers = append(result.Footers, table.Row{"Total Items Filtered", count})
     }
     result.Footers = append(result.Footers, table.Row{"Total of Connections", len(body)})
     PrettyResult(result)
