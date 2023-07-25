@@ -25,7 +25,7 @@ func GetConnection(env string){
     count := 0
     var result PrettyModelResult
     result.Title = "Connections"
-    result.Header = table.Row{"name", "vhost", "user", "state" } 
+    result.Header = table.Row{"Name", "Virtual Host", "User", "State" } 
     for _, el := range body { 
         queue := el["name"].(string)
         vhost := el["vhost"].(string)
