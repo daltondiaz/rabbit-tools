@@ -135,3 +135,47 @@ Result:
 | TOTAL PURGED MESSAGES          |        9 |
 +--------------------------------+----------+
 ```
+
+### Show Connections
+
+It's possible to show all or filter connections.
+
+```
+./rabbit-tools conn
+```
+
+Result:
+
+```
++---------------------------------------+--------------+---------------------+---------+
+| NAME                                  | VIRTUAL HOST | USER                | STATE   |
++---------------------------------------+--------------+---------------------+---------+
+| conn_1                                | vhost_11     | rabbit_toos_user123 | running |
+| conn_2                                | vhost_11     | rabbit_toos_user123 | running |
+| conn_3                                | vhost_11     | rabbit_toos_user123 | running |
+| conn_4                                | vhost_11     | rabbit_toos_user123 | running |
++---------------------------------------+--------------+---------------------+---------+
+| TOTAL OF CONNECTIONS                  | 451          |                     |         |
++---------------------------------------+--------------+---------------------+---------+
+```
+
+#### Filter connections
+
+If you need, with flag `--filter` is possible search in the name.
+
+```
+./rabbit-tools conn --filter=1
+```
+
+Result:
+
+```
++---------------------------------------+--------------+---------------------+---------+
+| NAME                                  | VIRTUAL HOST | USER                | STATE   |
++---------------------------------------+--------------+---------------------+---------+
+| conn_1                                | vhost_11     | rabbit_toos_user123 | running |
++---------------------------------------+--------------+---------------------+---------+
+| TOTAL ITEMS FILTERED                  | 1            |                     |         |
+| TOTAL OF CONNECTIONS                  | 451          |                     |         |
++---------------------------------------+--------------+---------------------+---------+
+```
