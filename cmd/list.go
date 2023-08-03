@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log"
 
 	"github.com/daltondiaz/rabbit-tools/internal"
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -10,11 +11,18 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List of Queues",
-	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		queue := args[0]
-        env, _ := cmd.Flags().GetString("env")
-		result := internal.GetQueues(queue, env)
+		filter, err:= cmd.Flags().GetString("filter")
+        if  err != nil {
+            filter = "all"
+        }
+
+        env, err := cmd.Flags().GetString("env")
+        if err != nil {
+            log.Fatal(err)
+        }  
+            
+		result := internal.GetQueues(filter, env)
         var prettyResult internal.PrettyModelResult
         prettyResult.Title = "List of Queues"
         prettyResult.Header = table.Row{"Queue", "Messages"} 
@@ -33,4 +41,5 @@ var listCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(listCmd)
     listCmd.PersistentFlags().String("env", "", "Prefix of environment in config.env")
+    listCmd.PersistentFlags().String("filter", "", "Filter queues")
 }
