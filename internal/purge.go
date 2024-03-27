@@ -11,8 +11,8 @@ import (
 func PurgeQueue(queue string, env string) {
     params := LoadEnvVariables(env)
     client := &http.Client{}
-    queues := GetQueues(queue, env)
-    sum := 0.0
+    queues := GetQueues(queue, env, 0)
+    sum := 0
     for queueName, value := range queues {
         url := (params.Url + "/" + queueName + "/contents")
         sum += value
@@ -31,7 +31,7 @@ func PurgeQueue(queue string, env string) {
     var prettyResult PrettyModelResult
     prettyResult.Title = "Purged Queues"
     prettyResult.Header = table.Row{"Purge Queue", "Messages"}
-    totalItems := 0.0
+    totalItems := 0
     for queueName, value := range queues {
         row := table.Row{queueName, value}
         totalItems += value
