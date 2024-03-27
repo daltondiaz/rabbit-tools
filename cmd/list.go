@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/daltondiaz/rabbit-tools/internal"
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -21,12 +22,22 @@ var listCmd = &cobra.Command{
         if err != nil {
             log.Fatal(err)
         }  
-            
-		result := internal.GetQueues(filter, env)
+
+        greaterStr, err := cmd.Flags().GetString("greater")
+        if err != nil {
+            log.Fatal(err)
+        }  
+
+        if _,err := strconv.Atoi(greaterStr); err != nil {
+            log.Fatal(err)
+        }
+
+        greater, _ := strconv.Atoi(greaterStr)
+		result := internal.GetQueues(filter, env, greater)
         var prettyResult internal.PrettyModelResult
         prettyResult.Title = "List of Queues"
         prettyResult.Header = table.Row{"Queue", "Messages"} 
-        totalItems := 0.0
+        totalItems := 0
 		for queueName, value := range result {
 			row := table.Row{queueName, value}
 			totalItems += value
@@ -42,4 +53,5 @@ func init() {
 	rootCmd.AddCommand(listCmd)
     listCmd.PersistentFlags().String("env", "", "Prefix of environment in config.env")
     listCmd.PersistentFlags().String("filter", "", "Filter queues")
+    listCmd.PersistentFlags().String("greater", "", "Filter queues with equal or greater than N messages")
 }
