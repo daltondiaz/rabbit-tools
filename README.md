@@ -179,3 +179,67 @@ Result:
 | TOTAL OF CONNECTIONS                  | 451          |                     |         |
 +---------------------------------------+--------------+---------------------+---------+
 ```
+
+#### Equals or Greater than X
+
+If you want to purge or list only queues with total mesages equals or greater than X it's possible to use the flag `--greater`.
+
+
+#### Example
+
+You have the following list
+
+```
++--------------------------------+----------+
+| QUEUE                          | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| queue_test1234                 |        5 |
+| queue_test1                    |        5 |
+| test_something                 |        3 |
+| something_queue                |        1 |
++--------------------------------+----------+
+| TOTAL QUEUES                   |        5 |
+| TOTAL MESSAGES                 |        19|
++--------------------------------+----------+
+```
+Using our flag:
+
+```
+./rabbit-tools list all --greater=5
+```
+
+Result:
+
+```
++--------------------------------+----------+
+| QUEUE                          | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| queue_test1234                 |        5 |
+| queue_test1                    |        5 |
++--------------------------------+----------+
+| TOTAL QUEUES                   |        3 |
+| TOTAL MESSAGES                 |        15|
++--------------------------------+----------+
+```
+
+You can use this flag on purge too 
+
+```
+./rabbit-tools purge all --greater=5
+```
+
+Result:
+
+```
++--------------------------------+----------+
+|PURGE QUEUE                     | MESSAGES |
++--------------------------------+----------+
+| something_test1                |        5 |
+| queue_test1234                 |        5 |
+| queue_test1                    |        5 |
++--------------------------------+----------+
+| TOTAL PURGED MESSAGES          |        15|
++--------------------------------+----------+
+```
