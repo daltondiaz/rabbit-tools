@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -13,45 +14,49 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List of Queues",
 	Run: func(cmd *cobra.Command, args []string) {
-		filter, err:= cmd.Flags().GetString("filter")
-        if  err != nil {
-            filter = "all"
-        }
+		filter, err := cmd.Flags().GetString("filter")
+		if err != nil {
+			filter = "all"
+		}
 
-        env, err := cmd.Flags().GetString("env")
-        if err != nil {
-            log.Fatal(err)
-        }  
+		env, err := cmd.Flags().GetString("env")
+		if err != nil {
+			log.Fatal(err)
+		}
 
-        greaterStr, err := cmd.Flags().GetString("greater")
-        if err != nil {
-            log.Fatal(err)
-        }  
+		greaterStr, err := cmd.Flags().GetString("greater")
+		if err != nil {
+			log.Fatal(err)
+		}
 
-        if _,err := strconv.Atoi(greaterStr); err != nil {
-            log.Fatal(err)
-        }
+		if greaterStr == "" {
+			greaterStr = "0"
+		}
 
-        greater, _ := strconv.Atoi(greaterStr)
+		if _, err := strconv.Atoi(greaterStr); err != nil {
+			log.Fatal(fmt.Errorf("error to convert greater flag to int, error: %w", err))
+		}
+
+		greater, _ := strconv.Atoi(greaterStr)
 		result := internal.GetQueues(filter, env, greater)
-        var prettyResult internal.PrettyModelResult
-        prettyResult.Title = "List of Queues"
-        prettyResult.Header = table.Row{"Queue", "Messages"} 
-        totalItems := 0
+		var prettyResult internal.PrettyModelResult
+		prettyResult.Title = "List of Queues"
+		prettyResult.Header = table.Row{"Queue", "Messages"}
+		totalItems := 0
 		for queueName, value := range result {
 			row := table.Row{queueName, value}
 			totalItems += value
 			prettyResult.Contents = append(prettyResult.Contents, row)
 		}
-        prettyResult.Footers = append(prettyResult.Footers, table.Row{"Total Queues", len(result)})
-        prettyResult.Footers = append(prettyResult.Footers, table.Row{"Total Messages", totalItems})
-        internal.PrettyResult(prettyResult)
+		prettyResult.Footers = append(prettyResult.Footers, table.Row{"Total Queues", len(result)})
+		prettyResult.Footers = append(prettyResult.Footers, table.Row{"Total Messages", totalItems})
+		internal.PrettyResult(prettyResult)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-    listCmd.PersistentFlags().String("env", "", "Prefix of environment in config.env")
-    listCmd.PersistentFlags().String("filter", "", "Filter queues")
-    listCmd.PersistentFlags().String("greater", "", "Filter queues with equal or greater than N messages")
+	listCmd.PersistentFlags().String("env", "", "Prefix of environment in config.env")
+	listCmd.PersistentFlags().String("filter", "", "Filter queues")
+	listCmd.PersistentFlags().String("greater", "", "Filter queues with equal or greater than N messages")
 }
